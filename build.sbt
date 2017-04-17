@@ -11,7 +11,9 @@ libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.4",
     "com.typesafe.akka" %% "akka-slf4j" % "2.4.4",
     "com.typesafe.akka" %% "akka-http-testkit" % "2.4.4",
-    "org.scalatest" %% "scalatest" % "2.2.5" % "test"
+    "com.monsanto.arch" %% "kamon-prometheus" % "0.2.0",
+    "org.scalatest" %% "scalatest" % "2.2.5" % Test,
+    "org.mockito" % "mockito-core" % "2.1.0" % Test
 )
 scalacOptions ++= Seq("-deprecation", "-feature")
 mainClass in assembly := Some("Main")
@@ -26,3 +28,11 @@ assemblyMergeStrategy in assembly := {
     //val baseStrategy = (assemblyMergeStrategy in assembly).value
     //baseStrategy(x)
 }
+
+fork in run := true
+fork in Test := true
+
+lazy val printVersion = taskKey[Unit]("Returns the version of this artifact")
+lazy val printName = taskKey[Unit]("Returns the name of this artifact")
+printVersion := println(version.value)
+printName := println(name.value)
